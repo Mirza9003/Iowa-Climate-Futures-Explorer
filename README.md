@@ -2,168 +2,92 @@
 
 # Iowa Climate Futures Explorer
 
-## Model-preserving CMIP6 projections of heat and precipitation extremes across Iowa climatic regions
+### Model-preserving CMIP6 projections of heat and precipitation extremes across Iowa climatic regions
 
-<p>
-  <img src="https://img.shields.io/badge/Status-Analysis%20Complete-2E7D32?style=for-the-badge" alt="Analysis complete">
-  <img src="https://img.shields.io/badge/Dashboard-In%20Development-E69F00?style=for-the-badge" alt="Dashboard in development">
-  <a href="./LICENSE">
-    <img src="https://img.shields.io/badge/License-MIT-1565C0?style=for-the-badge" alt="MIT License">
-  </a>
-</p>
+[![Status](https://img.shields.io/badge/status-analysis%20complete-2E7D32?style=flat-square)](#project-status)
+[![Models](https://img.shields.io/badge/CMIP6-6%20GCMs-6A1B9A?style=flat-square)](#cmip6-ensemble)
+[![Scenarios](https://img.shields.io/badge/scenarios-SSP2--4.5%20%7C%20SSP5--8.5-C62828?style=flat-square)](#study-design)
+[![License](https://img.shields.io/badge/license-MIT-1565C0?style=flat-square)](./LICENSE)
 
-<p>
-  <img src="https://img.shields.io/badge/Observations-NOAA%20GHCN--Daily-0072B2?style=flat-square" alt="NOAA GHCN-Daily">
-  <img src="https://img.shields.io/badge/Climate%20Models-6%20CMIP6%20GCMs-6A1B9A?style=flat-square" alt="Six CMIP6 models">
-  <img src="https://img.shields.io/badge/Scenarios-SSP2--4.5%20%7C%20SSP5--8.5-C62828?style=flat-square" alt="SSP2-4.5 and SSP5-8.5">
-  <img src="https://img.shields.io/badge/Indices-12%20Annual%20Extremes-00796B?style=flat-square" alt="Twelve annual extreme indices">
-</p>
+**A reproducible regional climate-extremes assessment that preserves each CMIP6 model through bias correction, index calculation, and change estimation before skill-weighted synthesis.**
 
-<p>
-  <img src="https://img.shields.io/badge/Method-Quantile%20Delta%20Mapping-00796B?style=flat-square" alt="Quantile delta mapping">
-  <img src="https://img.shields.io/badge/Method-Skill--Weighted%20Synthesis-00796B?style=flat-square" alt="Skill-weighted synthesis">
-  <img src="https://img.shields.io/badge/Statistics-Mann--Kendall%20%2B%20FDR-00796B?style=flat-square" alt="Mann-Kendall and false-discovery-rate correction">
-  <img src="https://img.shields.io/badge/Platform-Python%20%7C%20Google%20Colab-4285F4?style=flat-square" alt="Python and Google Colab">
-</p>
+<br>
 
-**A reproducible climate-analysis pipeline and planned interactive decision-support dashboard for exploring regional changes in heat, precipitation, and hydroclimatic extremes.**
+<img src="./12_FINAL_PAPER_FIGURES/Gabstract.png"
+     alt="Graphical abstract of the Iowa Climate Futures Explorer"
+     width="100%">
 
 </div>
 
 ---
 
-## Project Status
+## Overview
 
-The corrected analytical pipeline has been completed and its final figures, validation outputs, projection tables, uncertainty diagnostics, and trend results have been generated.
+The **Iowa Climate Futures Explorer** repository contains the validated analytical outputs and publication figures from a CMIP6 assessment of heat and precipitation extremes across Iowa.
 
-The next development phase is the **Iowa Climate Futures Explorer dashboard**, which will allow users to interactively compare:
+The analysis addresses a common methodological problem in multimodel climate studies: daily outputs from free-running global climate models are not synchronized weather realizations. Averaging them before bias correction or extreme-index calculation can suppress peaks, create artificial sequences, and distort threshold, rolling-accumulation, and spell-duration metrics.
 
-- climatic regions;
-- CMIP6 models;
-- emission scenarios;
-- projection periods;
-- extreme-climate indices;
-- weighted projected changes;
-- model agreement;
-- residual historical bias; and
-- model-family sensitivity.
+This study therefore follows a **model-preserving workflow**:
 
-The dashboard is planned as a **Streamlit application** using the final derived CSV and JSON products from this repository. It will not recompute the full climate pipeline during user interaction.
+> Each GCM is extracted, bias-corrected, indexed, and evaluated independently. Regional skill weights are applied only to model-level projected changes.
 
 ---
 
-## Dashboard Preview
+## Project status
 
-> Replace the placeholder below with the first dashboard screenshot after the application is developed.
-
-<p align="center">
-  <img src="./dashboard/assets/dashboard_overview.png" alt="Iowa Climate Futures Explorer dashboard preview" width="100%">
-</p>
-
-<p align="center">
-  <sub>
-    Planned interactive interface for comparing climatic regions, scenarios,
-    future periods, climate indices, model spread, agreement, and uncertainty.
-  </sub>
-</p>
-
----
-
-## Scientific Workflow
-
-<p align="center">
-  <img src="./figures/readme/01_methodology_workflow.png" alt="Model-preserving CMIP6 analysis workflow" width="95%">
-</p>
-
-<p align="center">
-  <sub>
-    Each GCM is preserved through extraction, bias correction, annual-index
-    calculation, and model-specific change estimation before regional
-    skill-weighted synthesis.
-  </sub>
-</p>
-
-The workflow is intentionally **model preserving**. Daily outputs from different climate models are not averaged before bias correction or index calculation because the models do not simulate synchronized weather events. Premature daily averaging can create artificial sequences and distort threshold counts, rolling accumulations, and spell-duration indices.
-
-The implemented sequence is:
-
-1. screen NOAA GHCN-Daily stations for completeness and quality;
-2. delineate five climatic regions using Ward hierarchical clustering;
-3. audit CMIP6 models for a complete common-member chain;
-4. extract daily precipitation and temperature at station locations;
-5. evaluate historical regional skill in five contiguous temporal blocks;
-6. apply quantile-delta mapping independently to each model, station, month, and variable;
-7. calculate twelve annual extreme indices separately for every model;
-8. estimate model-specific future changes relative to each model's own baseline;
-9. apply regional skill weights to model-level changes;
-10. classify robust directional agreement among the six models;
-11. assess residual historical bias and related-model sensitivity;
-12. evaluate Mann–Kendall trends with Benjamini–Hochberg false-discovery-rate control; and
-13. produce station-network-weighted regional summaries and publication products.
-
----
-
-## Quick Access
-
-| Resource | Repository location |
+| Component | Status |
 |---|---|
-| **Complete corrected notebook** | [`notebooks/Iowa_CMIP6_Corrected_Full_Pipeline.ipynb`](./notebooks/Iowa_CMIP6_Corrected_Full_Pipeline.ipynb) |
-| **Dashboard application** | [`dashboard/app.py`](./dashboard/app.py) |
-| **Dashboard documentation** | [`dashboard/README.md`](./dashboard/README.md) |
-| **Publication figures** | [`figures/publication/`](./figures/publication/) |
-| **Supplementary figures** | [`figures/supplementary/`](./figures/supplementary/) |
-| **Publication tables** | [`outputs/publication_tables/`](./outputs/publication_tables/) |
-| **Validation and trend outputs** | [`outputs/validation_and_trends/`](./outputs/validation_and_trends/) |
-| **Figure-source data** | [`outputs/figure_source_data/`](./outputs/figure_source_data/) |
-| **Environment specification** | [`environment/`](./environment/) |
-| **License** | [`LICENSE`](./LICENSE) |
+| Station quality control and climatic regionalization | Complete |
+| CMIP6 common-member audit and extraction | Complete |
+| Independent QDM validation | Complete |
+| Twelve annual extreme-index calculations | Complete |
+| Regional skill weighting and model-level projections | Complete |
+| Agreement, residual-bias, family-sensitivity, and FDR analyses | Complete |
+| Publication figures and derived outputs | Complete |
+| Interactive dashboard | Planned |
+
+The current repository documents the completed scientific analysis. A Streamlit dashboard is planned as a separate interface for exploring the final derived tables; it will not recompute the complete daily climate-processing pipeline during user interaction.
 
 ---
 
-## Study Overview
+## Study design
 
-This repository evaluates projected changes in heat and precipitation extremes across Iowa using quality-controlled station observations and six CMIP6 global climate models.
-
-The study combines:
-
-- **105 NOAA GHCN-Daily stations**;
-- **five climatic regions**;
-- **six CMIP6 models** with a common `r1i1p1f1` member;
-- **historical, SSP2-4.5, and SSP5-8.5 experiments**;
-- **station- and month-specific quantile-delta mapping**;
-- **twelve annual extreme-climate indices**;
-- **regional performance-based model weights**;
-- **model-level agreement and uncertainty diagnostics**; and
-- **Mann–Kendall trend analysis with false-discovery-rate control**.
-
-The historical observation period is **1985–2014**. Future changes are evaluated for three equal 28-year windows:
-
-- **2017–2044**
-- **2045–2072**
-- **2073–2100**
-
-against the **1987–2014** model-specific baseline.
+| Element | Specification |
+|---|---|
+| Study area | Iowa, USA |
+| Observations | 105 quality-controlled NOAA GHCN-Daily stations |
+| Observation period | 1985–2014 |
+| Climatic regionalization | Five Ward-cluster regions |
+| CMIP6 ensemble | Six GCMs, common `r1i1p1f1` member |
+| Variables | Daily precipitation, maximum temperature, minimum temperature |
+| Scenarios | SSP2-4.5 and SSP5-8.5 |
+| Bias correction | Station- and month-specific quantile-delta mapping |
+| Independent calibration | 1985–1999 |
+| Independent validation | 2000–2014 |
+| Projection baseline | 1987–2014 |
+| Future windows | 2017–2044, 2045–2072, 2073–2100 |
+| Extreme indices | 12 annual ETCCDI-style indices |
+| Statewide aggregation | Station-network-weighted, not area-weighted |
 
 ---
 
-## Climatic Regionalization
+## Climatic regionalization
 
 <p align="center">
-  <img src="./figures/readme/02_climatic_regionalization.png" alt="Iowa climatic regionalization and station network" width="95%">
+  <img src="./12_FINAL_PAPER_FIGURES/Fig01_Iowa_climatic_regionalization.png"
+       alt="Ward hierarchical clustering and five Iowa climatic regions"
+       width="100%">
 </p>
 
-The 105 retained stations were grouped into five climatic regions using standardized geographic and climatological features:
+The 105 retained stations were grouped using standardized geographic and climatological attributes:
 
-- latitude;
-- longitude;
+- latitude and longitude;
 - elevation;
 - mean annual precipitation;
 - mean annual maximum temperature; and
 - mean annual minimum temperature.
 
-The resulting regions contain:
-
-| Region | Stations | Fraction of network |
+| Region | Stations | Fraction of station network |
 |---:|---:|---:|
 | R1 | 12 | 0.114 |
 | R2 | 27 | 0.257 |
@@ -171,13 +95,13 @@ The resulting regions contain:
 | R4 | 11 | 0.105 |
 | R5 | 28 | 0.267 |
 
-These station fractions are used only for the reported station-network-weighted summaries. They are **not area weights**.
+These fractions are used only for station-network-weighted statewide summaries. They are not area, population, watershed, cropland, or exposure weights.
 
 ---
 
-## CMIP6 Model Ensemble
+## CMIP6 ensemble
 
-The common-member audit retained six models with complete historical and future precipitation and temperature chains:
+Six models were retained after auditing the historical, SSP2-4.5, and SSP5-8.5 experiments for complete precipitation, maximum-temperature, and minimum-temperature chains.
 
 | Model | Member |
 |---|---|
@@ -188,461 +112,281 @@ The common-member audit retained six models with complete historical and future 
 | MRI-ESM2-0 | `r1i1p1f1` |
 | NESM3 | `r1i1p1f1` |
 
-Variables:
+Regional skill weights vary by climatic region and variable; no single GCM dominates across all combinations.
 
-- `pr` — precipitation;
-- `tasmax` — daily maximum near-surface air temperature; and
-- `tasmin` — daily minimum near-surface air temperature.
-
-Experiments:
-
-- historical;
-- SSP2-4.5; and
-- SSP5-8.5.
-
-The complete extraction inventory contains **54 model–experiment–variable files**.
+<p align="center">
+  <img src="./12_FINAL_PAPER_FIGURES/Fig02_Regional_GCM_skill_weights.png"
+       alt="Region-specific skill weights for the six CMIP6 models"
+       width="100%">
+</p>
 
 ---
 
-## Bias Correction and Independent Validation
+## Model-preserving analytical workflow
 
-Quantile-delta mapping is applied independently for every:
+1. Screen GHCN-Daily stations for quality and completeness.
+2. Delineate five climatic regions using Ward hierarchical clustering.
+3. Audit CMIP6 models for a complete common-member chain.
+4. Extract daily model values at station locations.
+5. Evaluate historical skill in five contiguous temporal blocks.
+6. Apply QDM independently by model, station, month, and variable.
+7. Calculate annual extreme indices separately for every model.
+8. Estimate future change relative to each model's own baseline.
+9. Apply region- and variable-specific weights to model-level changes.
+10. Classify robust directional agreement among the six models.
+11. Evaluate residual historical bias and GFDL-family sensitivity.
+12. Test Mann–Kendall trends with Benjamini–Hochberg FDR control.
+13. Aggregate regional results using the station-network fractions.
 
-- climate model;
-- station;
-- calendar month; and
-- climate variable.
+### Annual indices
 
-The independent evaluation uses:
+| Index | Definition | Reported change |
+|---|---|---|
+| CDD | Maximum consecutive dry days | % |
+| CWD | Maximum consecutive wet days | % |
+| PRCPTOT | Annual precipitation on wet days | % |
+| R10mm | Days with precipitation ≥10 mm | % |
+| R20mm | Days with precipitation ≥20 mm | % |
+| R25mm | Days with precipitation ≥25 mm | % |
+| R95p | Precipitation above the observed 95th wet-day percentile | % |
+| R99p | Precipitation above the observed 99th wet-day percentile | % |
+| RX1day | Annual maximum one-day precipitation | % |
+| RX5day | Annual maximum consecutive five-day precipitation | % |
+| SDII | Mean wet-day precipitation intensity | % |
+| SU25 | Days with maximum temperature >25 °C | days |
 
-- **calibration:** 1985–1999;
-- **validation:** 2000–2014.
+A wet day is defined as precipitation ≥1 mm.
 
-Precipitation is corrected multiplicatively with explicit wet-day treatment and non-negativity constraints. Temperature is corrected additively.
+---
 
-<p align="center">
-  <img src="./figures/readme/03_independent_qdm_validation.png" alt="Independent per-GCM QDM validation" width="95%">
-</p>
+## Independent bias-correction validation
 
-Median Kolmogorov–Smirnov statistics across the six models changed as follows:
+QDM was calibrated on **1985–1999** and evaluated on the withheld **2000–2014** period.
 
-| Variable | Raw | Corrected | Median reduction |
+| Variable | Median raw KS | Median corrected KS | Median reduction |
 |---|---:|---:|---:|
 | Precipitation | 0.714 | 0.055 | 92.2% |
 | Maximum temperature | 0.128 | 0.044 | 62.2% |
 | Minimum temperature | 0.185 | 0.042 | 73.0% |
 
-The projection configuration is then refitted on the full **1985–2014** interval before application to historical and future daily series.
+<p align="center">
+  <img src="./12_FINAL_PAPER_FIGURES/Fig03_Independent_per_GCM_QDM_validation.png"
+       alt="Independent per-GCM QDM validation"
+       width="100%">
+</p>
+
+<p align="center">
+  <img src="./12_FINAL_PAPER_FIGURES/Fig04_Independent_extreme_index_distribution_validation.png"
+       alt="Independent validation of selected precipitation-extreme index distributions"
+       width="100%">
+</p>
+
+The projection configuration was subsequently refitted on the full 1985–2014 historical period before application to the future simulations.
 
 ---
 
-## Extreme-Climate Indices
+## Key findings
 
-Twelve annual indices are calculated separately for each station and model.
+### 1. Heat is the clearest and most spatially consistent signal
 
-| Index | Description | Unit |
-|---|---|---|
-| CDD | Maximum consecutive dry days | days |
-| CWD | Maximum consecutive wet days | days |
-| PRCPTOT | Annual precipitation on wet days | mm |
-| R10mm | Days with precipitation ≥10 mm | days |
-| R20mm | Days with precipitation ≥20 mm | days |
-| R25mm | Days with precipitation ≥25 mm | days |
-| R95p | Precipitation above the observed 95th wet-day percentile | mm |
-| R99p | Precipitation above the observed 99th wet-day percentile | mm |
-| RX1day | Annual maximum one-day precipitation | mm |
-| RX5day | Annual maximum consecutive five-day precipitation | mm |
-| SDII | Mean precipitation intensity on wet days | mm day⁻¹ |
-| SU25 | Days with maximum temperature >25 °C | days |
+Under late-century SSP5-8.5, the station-network-weighted increase in summer days is:
 
-A wet day is defined as precipitation ≥1 mm.
+> **SU25: +57.7 days per year**
 
-Precipitation-related future changes are reported as percentages. SU25 changes are reported as additional or fewer days.
+All five climatic regions show robust increases across every scenario-period combination.
 
----
+### 2. Heavy precipitation intensifies faster than annual precipitation
 
-## Key Results
+Late-century SSP5-8.5 statewide changes are:
 
-### Increasing heat exposure
+| Index | Projected change |
+|---|---:|
+| PRCPTOT | +11.9% |
+| R95p | +38.6% |
+| RX1day | +26.0% |
+| RX5day | +18.8% |
 
-Summer days above 25 °C show the clearest regional signal. The station-network-weighted late-century SSP5-8.5 projection is:
+The much larger increases in upper-tail and short-duration precipitation than in annual totals indicate intensification of heavy precipitation rather than uniform scaling of all wet days.
 
-- **+57.7 days annually**
+<p align="center">
+  <img src="./12_FINAL_PAPER_FIGURES/Fig08_Key_statewide_projection_summaries.png"
+       alt="Station-network-weighted statewide projection summaries"
+       width="92%">
+</p>
 
-with robust increases across all five climatic regions.
-
-### Increasing precipitation intensity
-
-Under late-century SSP5-8.5, the station-network-weighted projected changes are:
-
-- **PRCPTOT:** +11.9%
-- **R95p:** +38.6%
-- **RX1day:** +26.0%
-- **RX5day:** +18.8%
-
-The stronger increases in upper-tail and short-duration precipitation than in annual totals indicate intensification of heavy precipitation rather than uniform scaling of all wet days.
-
-### Growth in robust model agreement
-
-The number of regional index projections classified as robust increases grows through the century:
+### 3. Robust agreement strengthens through the century
 
 | Scenario | 2017–2044 | 2045–2072 | 2073–2100 |
 |---|---:|---:|---:|
-| SSP2-4.5 | 22 of 60 | 50 of 60 | 51 of 60 |
-| SSP5-8.5 | 37 of 60 | 50 of 60 | 51 of 60 |
+| SSP2-4.5 | 22 of 60 robust increases | 50 of 60 | 51 of 60 |
+| SSP5-8.5 | 36 of 60 robust increases | 50 of 60 | 51 of 60 |
 
-A robust signal requires:
+A projection is classified as robust when:
 
-- at least five of six models agreeing on direction; and
-- a weighted magnitude above 1% for percentage indices or 1 day for SU25.
+- at least five of six models agree on the sign; and
+- the weighted magnitude exceeds 1% for percentage-change indices or 1 day for SU25.
 
-### Rare-tail uncertainty
+<p align="center">
+  <img src="./12_FINAL_PAPER_FIGURES/Fig07_Robust_model_agreement_summary.png"
+       alt="Evolution of robust intermodel agreement"
+       width="100%">
+</p>
 
-R99p shows a consistently positive projected direction but greater uncertainty in magnitude:
+### 4. Spell-duration changes remain mixed
 
-- median residual absolute bias: 22.62%;
-- maximum residual absolute bias: 31.01%;
-- median GFDL-family sensitivity: 5.10 percentage points; and
-- maximum GFDL-family sensitivity: 15.77 percentage points.
+CDD and CWD do not show the same spatial and directional consistency as heat and precipitation-intensity indices. A wetter climate does not necessarily imply longer continuous wet spells because annual totals, event intensity, and wet/dry-day sequencing measure different processes.
 
-R99p should therefore be interpreted as an uncertainty-qualified rare-tail indicator rather than a precise engineering design value.
+### 5. The rarest precipitation tail has the greatest magnitude uncertainty
 
-### Trend significance after multiple-testing control
+R99p remains positive in direction but has elevated residual bias and related-model sensitivity:
 
-Across **420 Mann–Kendall tests**:
+| Diagnostic | R99p |
+|---|---:|
+| Median residual absolute bias | 22.60% |
+| Maximum residual absolute bias | 31.01% |
+| Median GFDL-family sensitivity | 5.15 percentage points |
+| Maximum GFDL-family sensitivity | 15.76 percentage points |
 
-- 48 had nominal `p < 0.05`;
-- 20 remained significant after Benjamini–Hochberg correction; and
-- all retained trends were SU25 increases.
-
-Period changes and within-period monotonic trends are different forms of evidence and are reported separately.
+R99p should therefore be interpreted as an uncertainty-qualified rare-tail indicator rather than as a precise engineering design value.
 
 ---
 
-## Projection Visualizations
-
-### Regional model-level projected changes
+## Regional model-level projections
 
 <p align="center">
-  <img src="./figures/readme/04_regional_projected_changes.png" alt="Regional model-level projected changes" width="100%">
+  <img src="./12_FINAL_PAPER_FIGURES/Fig06_Regional_model_level_projected_changes.png"
+       alt="Regional model-level projected changes in twelve annual extreme indices"
+       width="100%">
 </p>
 
-Boxes summarize the six independently corrected climate models. The models remain separate through bias correction, annual-index calculation, and change estimation.
-
-### Robust model agreement
-
-<p align="center">
-  <img src="./figures/readme/05_model_agreement.png" alt="Robust model agreement across climatic regions" width="100%">
-</p>
-
-The agreement diagnostics identify where projected direction is supported by at least five of six models and where the signal remains mixed.
-
-### Reliability and model-family sensitivity
-
-<p align="center">
-  <img src="./figures/readme/06_reliability_screen.png" alt="Index reliability and model-family sensitivity" width="90%">
-</p>
-
-Reliability categories combine residual historical bias and sensitivity to the related GFDL-CM4 and GFDL-ESM4 models. These classes are descriptive diagnostics rather than probabilities.
+The boxes summarize the six independently processed GCMs. They preserve model spread and regional heterogeneity rather than presenting a synthetic daily multimodel time series.
 
 ---
 
-## Planned Interactive Dashboard
+## Reliability and trend diagnostics
 
-The planned dashboard will translate the final analysis outputs into an accessible comparison and decision-support environment.
+### Residual bias and model-family sensitivity
 
-### Dashboard modules
+<p align="center">
+  <img src="./12_FINAL_PAPER_FIGURES/Fig09_Index_reliability_and_family_sensitivity.png"
+       alt="Index reliability and GFDL-family sensitivity"
+       width="92%">
+</p>
 
-#### 1. Regional Climate Explorer
+The reliability classes combine residual historical bias with sensitivity to alternative treatment of GFDL-CM4 and GFDL-ESM4. They are descriptive diagnostics, not probabilities.
 
-Users will be able to:
+### FDR-controlled trend evidence
 
-- select a climatic region;
-- view the station network;
-- compare regional baseline climates;
-- examine station counts and data completeness; and
-- display model weights by variable.
+Across 420 Mann–Kendall tests:
 
-#### 2. Scenario and Period Comparison
+- 54 had nominal `p < 0.05`;
+- 26 remained significant after joint Benjamini–Hochberg correction;
+- 23 of the retained trends were SU25 increases; and
+- the remaining three were individual future increases in R10mm, R99p, and RX1day.
 
-Users will be able to compare:
+Period changes and within-period monotonic trends are distinct forms of evidence and should not be interpreted interchangeably.
 
-- SSP2-4.5 and SSP5-8.5;
-- near-, mid-, and late-century periods;
-- regional and station-network-weighted summaries; and
-- absolute versus percentage changes.
-
-#### 3. Extreme-Index Explorer
-
-Users will be able to select any of the twelve indices and view:
-
-- weighted projected change;
-- six-model distribution;
-- regional minimum and maximum;
-- model agreement;
-- residual historical bias;
-- reliability category; and
-- related-model sensitivity.
-
-#### 4. Model Comparison
-
-Users will be able to:
-
-- compare individual GCM changes;
-- inspect regional skill weights;
-- identify model spread;
-- compare full and GFDL-family sensitivity results; and
-- download filtered model-level tables.
-
-#### 5. Agreement and Trend Diagnostics
-
-The dashboard will display:
-
-- robust increase, robust decrease, and mixed classifications;
-- number of agreeing models;
-- Mann–Kendall statistics;
-- Sen slopes;
-- nominal p-values;
-- FDR-adjusted q-values; and
-- clear separation between period changes and monotonic trends.
-
-#### 6. Decision-Support View
-
-A user-selected region, index, scenario, and period will return:
-
-- projected magnitude;
-- regional range;
-- model agreement;
-- reliability category;
-- principal limitation;
-- suggested interpretation; and
-- downloadable evidence table.
-
-The dashboard will support screening and comparison. It will not present rare-tail projections as site-specific engineering design values.
+<p align="center">
+  <img src="./12_FINAL_PAPER_FIGURES/Fig10_FDR_corrected_trend_matrices.png"
+       alt="FDR-controlled Mann-Kendall trend results"
+       width="100%">
+</p>
 
 ---
 
-## Recommended Dashboard Controls
+## Community and planning relevance
 
-| Control | Options |
+The results provide regional, uncertainty-qualified evidence for Iowa climate-risk screening.
+
+| Application | Relevant evidence |
 |---|---|
-| Climatic region | R1–R5 or station-network-weighted summary |
-| Index | CDD, CWD, PRCPTOT, R10mm, R20mm, R25mm, R95p, R99p, RX1day, RX5day, SDII, SU25 |
-| Scenario | SSP2-4.5, SSP5-8.5 |
-| Period | 2017–2044, 2045–2072, 2073–2100 |
-| View | Weighted projection, individual models, agreement, trend, reliability |
-| Comparison | Regions, scenarios, periods, indices, or models |
-| Download | Filtered CSV and publication-ready PNG |
+| Stormwater and drainage planning | Robust RX1day and RX5day increases |
+| Flood preparedness | Increasing short-duration and multi-day rainfall intensity |
+| Agriculture | More hot days, ponding risk, erosion potential, and operational disruption |
+| Livestock and occupational heat planning | Large and spatially consistent SU25 increases |
+| Nutrient and soil management | More intense precipitation and runoff-generating conditions |
+| Regional planning | Five climatic regions reveal heterogeneity masked by statewide means |
+
+These projections support regional comparison and adaptation screening. They do not replace site-specific hydrologic, hydraulic, agricultural, health, or engineering analysis.
 
 ---
 
-## Dashboard Data Products
+## Figure inventory
 
-The Streamlit application should read only compact derived outputs, including:
+All current publication and supplementary figures are stored in:
 
-```text
-dashboard/data/
-├── station_regions.csv
-├── regional_gcm_weights.csv
-├── per_model_future_changes.csv
-├── weighted_multimodel_projections.csv
-├── model_agreement_summary.csv
-├── weighted_historical_validation.csv
-├── gfdl_family_sensitivity.csv
-├── mann_kendall_trends_fdr.csv
-├── statewide_station_weighted_projections.csv
-├── index_reliability_screen.csv
-└── dashboard_metadata.json
-```
+[`12_FINAL_PAPER_FIGURES/`](./12_FINAL_PAPER_FIGURES/)
 
-Large raw CMIP6 and daily corrected files should remain outside the deployed dashboard.
+| File | Content |
+|---|---|
+| `Gabstract.png` | Graphical abstract |
+| `Fig01_Iowa_climatic_regionalization.png` | Dendrogram and five-region station map |
+| `Fig02_Regional_GCM_skill_weights.png` | Regional and variable-specific model weights |
+| `Fig03_Independent_per_GCM_QDM_validation.png` | Independent daily-distribution validation |
+| `Fig04_Independent_extreme_index_distribution_validation.png` | Independent annual-index validation |
+| `Fig05_Historical_extreme_index_validation.png` | Historical residual-bias diagnostic |
+| `Fig06_Regional_model_level_projected_changes.png` | Model-level regional projections |
+| `Fig07_Robust_model_agreement_summary.png` | Agreement classification and net direction |
+| `Fig08_Key_statewide_projection_summaries.png` | Statewide station-network-weighted summaries |
+| `Fig09_Index_reliability_and_family_sensitivity.png` | Reliability and family-sensitivity screen |
+| `Fig10_FDR_corrected_trend_matrices.png` | FDR-controlled trend results |
+| `FigS01_Station_completeness.png` | Station completeness diagnostic |
+| `FigS02_Statewide_aggregation_sensitivity.png` | Statewide aggregation sensitivity |
+
+> `Fig6New.png` appears to be an obsolete or duplicate working figure and should be removed after confirming that it is not referenced by the manuscript, code, or release package.
 
 ---
 
-## Repository Structure
+## Data sources
+
+| Purpose | Source |
+|---|---|
+| Daily station precipitation and temperature | NOAA Global Historical Climatology Network-Daily |
+| CMIP6 daily model output | ESGF/Pangeo CMIP6 cloud catalogue |
+| Iowa boundary | U.S. Census Bureau geographic data |
+| Station coordinates and elevation | NOAA station metadata |
+
+Source datasets retain their original licences, attribution requirements, and terms of use.
+
+---
+
+## Scientific limitations
+
+- The ensemble contains six GCMs and one member per model.
+- GFDL-CM4 and GFDL-ESM4 share institutional lineage.
+- Nearest-grid-cell extraction does not resolve all local land-surface, urban, convective, and drainage processes.
+- QDM corrects marginal distributions but does not guarantee correction of storm structure, spatial coherence, temporal dependence, or cross-variable dependence.
+- Near-term projections remain influenced by internal variability.
+- R99p has greater residual bias and family sensitivity than more frequently sampled heavy-precipitation indices.
+- Statewide values are station-network-weighted and are not area-weighted Iowa means.
+
+---
+
+## Repository organization
+
+A clean release structure is recommended:
 
 ```text
 Iowa-Climate-Futures-Explorer/
 ├── README.md
 ├── LICENSE
 ├── CITATION.cff
-├── .gitignore
-│
 ├── notebooks/
-│   └── Iowa_CMIP6_Corrected_Full_Pipeline.ipynb
-│
 ├── src/
-│   ├── data_processing/
-│   ├── bias_correction/
-│   ├── climate_indices/
-│   ├── weighting/
-│   ├── trend_analysis/
-│   └── visualization/
-│
-├── dashboard/
-│   ├── app.py
-│   ├── pages/
-│   │   ├── 1_Regional_Explorer.py
-│   │   ├── 2_Projection_Comparison.py
-│   │   ├── 3_Model_Agreement.py
-│   │   ├── 4_Reliability_and_Trends.py
-│   │   └── 5_Data_Download.py
-│   ├── components/
-│   ├── data/
-│   ├── assets/
-│   │   └── dashboard_overview.png
-│   └── README.md
-│
 ├── data/
-│   ├── README.md
 │   ├── metadata/
 │   └── derived/
-│
 ├── outputs/
 │   ├── publication_tables/
-│   ├── model_level_results/
 │   ├── validation_and_trends/
-│   ├── figure_source_data/
-│   └── run_summaries/
-│
-├── figures/
-│   ├── publication/
-│   ├── supplementary/
-│   └── readme/
-│
+│   └── figure_source_data/
+├── 12_FINAL_PAPER_FIGURES/
 ├── manuscript/
-│   ├── main/
-│   └── supplementary/
-│
 ├── environment/
-│   ├── requirements.txt
-│   ├── environment.yml
-│   └── software_versions.txt
-│
 └── docs/
-    ├── methodology.md
-    ├── data_dictionary.md
-    ├── dashboard_design.md
-    └── reproducibility.md
 ```
 
----
-
-## Reproducing the Analysis
-
-### Google Colab
-
-1. Clone or download this repository.
-2. Open:
-
-   [`notebooks/Iowa_CMIP6_Corrected_Full_Pipeline.ipynb`](./notebooks/Iowa_CMIP6_Corrected_Full_Pipeline.ipynb)
-
-3. Mount Google Drive when prompted.
-4. update the project-root configuration cell;
-5. run the notebook from top to bottom;
-6. confirm that all validation checks pass; and
-7. inspect the generated publication package.
-
-### Local Python Environment
-
-Create the environment using either:
-
-```bash
-pip install -r environment/requirements.txt
-```
-
-or:
-
-```bash
-conda env create -f environment/environment.yml
-conda activate iowa-climate-futures
-```
-
-Package versions used for the final run should be recorded in:
-
-```text
-environment/software_versions.txt
-```
-
----
-
-## Running the Dashboard
-
-After the dashboard code is added:
-
-```bash
-pip install -r environment/requirements.txt
-streamlit run dashboard/app.py
-```
-
-The dashboard should be tested locally before deployment to Streamlit Community Cloud or another hosting platform.
-
----
-
-## Data Sources
-
-| Purpose | Source |
-|---|---|
-| Daily station precipitation and temperature | NOAA Global Historical Climatology Network-Daily |
-| CMIP6 daily climate-model output | ESGF/Pangeo CMIP6 cloud catalogue |
-| State boundary | U.S. Census Bureau cartographic or TIGER/Line boundary |
-| Station coordinates and elevation | NOAA station metadata |
-
-Source datasets retain their original licenses, attribution requirements, and terms of use.
-
----
-
-## Data Availability and Repository Scope
-
-This repository is intended to include:
-
-- analysis code;
-- the complete corrected notebook;
-- station and model metadata;
-- compact derived CSV and JSON products;
-- figure-source tables;
-- publication figures;
-- dashboard code; and
-- reproducibility documentation.
-
-The repository should not include:
-
-- the complete raw CMIP6 archive;
-- all large daily extraction files;
-- all daily QDM-corrected files;
-- restricted or redundant source datasets;
-- temporary caches; or
-- obsolete outputs from earlier analytical designs.
-
-Instructions for retrieving the original public datasets should be documented instead.
-
----
-
-## Scientific Limitations
-
-### Climate-model ensemble size
-
-The study uses six models with one ensemble member per model. This supports a complete and comparable analysis chain but does not represent the full CMIP6 structural or initial-condition ensemble.
-
-### Spatial representation
-
-Nearest-grid extraction does not resolve all local terrain, land-cover, urban, soil, or convective-storm processes.
-
-### Univariate bias correction
-
-QDM adjusts marginal distributions but does not guarantee correction of spatial coherence, storm structure, temporal dependence, or cross-variable dependence.
-
-### Rare-event uncertainty
-
-The rarest precipitation tail, especially R99p, has larger residual bias and model-family sensitivity than more frequently sampled indices.
-
-### Regional aggregation
-
-The reported Iowa-wide summaries are weighted by the station distribution among the five climatic regions. They are not area-, population-, watershed-, or cropland-weighted means.
-
-### Decision-support interpretation
-
-The dashboard is intended for regional screening, comparison, research, and planning support. It does not replace site-specific hydrologic, engineering, agricultural, or regulatory analysis.
+Large raw CMIP6 archives and daily corrected files should not be committed to GitHub. Retrieval instructions, metadata, compact derived tables, and reproducible code should be provided instead.
 
 ---
 
@@ -652,7 +396,7 @@ A formal article citation and repository DOI should be added after publication a
 
 Suggested repository citation:
 
-> Mukarram, M. M. T. (2026). *Iowa Climate Futures Explorer: A model-preserving CMIP6 analysis and interactive decision-support platform for regional heat and precipitation extremes*. GitHub repository.
+> Mukarram, M. M. T. (2026). *Iowa Climate Futures Explorer: Model-preserving CMIP6 projections of heat and precipitation extremes across Iowa climatic regions*. GitHub repository.
 
 After creating a versioned release, archive the repository with Zenodo and update both this section and `CITATION.cff` with the DOI.
 
@@ -660,48 +404,23 @@ After creating a versioned release, archive the repository with Zenodo and updat
 
 ## Author
 
-### Mirza Md Tasnim Mukarram
-
+**Mirza Md Tasnim Mukarram**  
 School of Earth, Environment, and Sustainability  
-University of Iowa  
-Iowa City, Iowa, USA
-
+University of Iowa, Iowa City, Iowa, USA  
 Email: [mtasnimmukarram@uiowa.edu](mailto:mtasnimmukarram@uiowa.edu)
 
 ---
 
 ## License
 
-The original code in this repository is released under the **MIT License**, unless otherwise stated.
-
-NOAA, CMIP6, ESGF/Pangeo, and U.S. Census Bureau datasets retain their respective licenses, acknowledgements, and citation requirements.
-
----
-
-## Acknowledgements
-
-This project uses:
-
-- NOAA GHCN-Daily observations;
-- CMIP6 climate-model simulations;
-- ESGF and Pangeo data infrastructure;
-- U.S. Census Bureau geographic data; and
-- open-source Python scientific-computing libraries.
+Original code in this repository is released under the **MIT License**, unless otherwise stated. NOAA, CMIP6, ESGF/Pangeo, and U.S. Census Bureau datasets retain their respective licences and citation requirements.
 
 ---
 
 <div align="center">
 
-## Iowa Climate Futures Explorer
+### Iowa Climate Futures Explorer
 
-**Regional climate projections • Model comparison • Extreme-index analytics • Decision support**
-
-<br>
-
-Dashboard development is in progress.
-
-<br>
-
-If this repository supports your research, consider giving it a ⭐
+**Regional climate projections · Model-preserving analysis · Extreme-index diagnostics · Reproducible science**
 
 </div>
