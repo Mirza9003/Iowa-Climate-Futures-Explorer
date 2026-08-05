@@ -405,7 +405,8 @@ After creating a versioned release, archive the repository with Zenodo and updat
 ## Author
 
 **Mirza Md Tasnim Mukarram**  
-School of Earth, Environment, and Sustainability  
+School of Earth, Environment, and Sustainability
+Informatics, Dept of Computer Science
 University of Iowa, Iowa City, Iowa, USA  
 Email: [mtasnimmukarram@uiowa.edu](mailto:mtasnimmukarram@uiowa.edu)
 
